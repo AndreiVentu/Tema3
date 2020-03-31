@@ -6,9 +6,12 @@ namespace Teema1
 {
     class Student
     {
-        const int MINIM = 5;
-        const string GOOD = "admis";
-        const string BAD = "respins";
+        public const int MINIM = 5;
+        const int NM = 0;
+        const int PR = 1;
+        const int NT = 2;
+        public const string GOOD = "admis";
+        public const string BAD = "respins";
         public const int MARE = 1;
         public const int MIC = 0;
 
@@ -38,23 +41,23 @@ namespace Teema1
 
         public string ConversieLaSir()
         {
-            if (nota >= 5)
+            if (status==GOOD)
                 return string.Format("Elevul {0} {1} are nota {2} si este admis", nume, prenume, nota);
             else
                 return string.Format("Elevul {0} {1} are nota {2} si este respins", nume, prenume, nota);
         }
 
-        public string afisareresp()
+        public string Afisareresp()
         {
-            if (nota < 5)
+            if (status == BAD)
                 return string.Format("{0} {1} : nota {2}", nume, prenume, nota);
             else
                 return string.Empty;
         }
 
-        public string afisareadmis()
+        public string Afisareadmis()
         {
-            if (nota >= 5)
+            if (status == GOOD)
                 return string.Format("{0} {1} : nota {2}", nume, prenume, nota);
             else
                 return string.Empty;
@@ -66,38 +69,18 @@ namespace Teema1
             string[] cuvinte = text.Split(", ");
             foreach (string cuv in cuvinte)
             {
-                if (k == 0)
+                if (k == NM)
                     nume = cuv;
-                if (k == 1)
+                if (k == PR)
                     prenume = cuv;
-                if (k == 2)
+                if (k == NT)
                     nota = Convert.ToDouble(cuv);
                 k++;
             }
             numecomplet = nume + ' ' + prenume;
         }
-        public string getnumepr()
-        {
-            return string.Format("{0} {1}", nume, prenume);
-        }
-        public string reexaminare()
-        {
-            return string.Empty;
-        }
-
-        public void setnota(double nota_)
-        {
-            nota = nota_;
-        }
-
-        public void setstatus(double nota)
-        {
-            if (nota >= MINIM)
-                status = GOOD;
-            else
-                status = BAD;
-        }
-        public int compare(Student el)
+        
+        public int Compare(Student el)
         {
             int ok = 0;
             if (this.nota > el.nota)
@@ -109,10 +92,5 @@ namespace Teema1
 
             return ok;
         }
-        public string getstatus()
-        {
-            return status;
-        }
-
     }
 }

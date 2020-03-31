@@ -18,6 +18,7 @@ namespace Teema1
             string[] raspunss = new string[] { "Console.WriteLine()", "Console.ReadLine()", "DA" };
             //test primul elev + afisare
             Student elev = new Student("Andrei, Tudor, 10");
+            elev.status = "admis";
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("LISTA ELEVI + NOTE + situatie: ");
             Console.ForegroundColor = ConsoleColor.White;
@@ -35,7 +36,11 @@ namespace Teema1
                 string prenume_ = prenume[rnd.Next(0, prenume.Length)];
                 double nota_ = rnd.Next(1, 10);
                 elevi[i] = new Student(nume_, prenume_, nota_);
-                elevi[i].setstatus(nota_);
+                if (elevi[i].nota >= Student.MINIM)
+                    elevi[i].status = Student.GOOD;
+                else
+                    elevi[i].status = Student.BAD;
+
                 Console.WriteLine(elevi[i].ConversieLaSir());
             }
             //afisare elevi respinsi
@@ -43,10 +48,10 @@ namespace Teema1
             Console.WriteLine("\nElevii respinsi:");
             for (int i = 0; i <= 10; i++)
             {
-                if (elevi[i].afisareresp() != string.Empty)
+                if (elevi[i].Afisareresp() != string.Empty)
                 {
                     nr++;
-                    Console.WriteLine(elevi[i].afisareresp());
+                    Console.WriteLine(elevi[i].Afisareresp());
                 }
             }
 
@@ -80,13 +85,13 @@ namespace Teema1
                         {
                             for (int i = 0; i <= 10; i++)
                             {
-                                if (elevi[i].getstatus().Equals("respins"))
+                                if (elevi[i].status.Equals("respins"))
                                 {
                                     Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine("\n\n---------------------------------------------------------------------------------------------------------------");
                                     Console.WriteLine("|                                                                                                              |");
                                     Console.ForegroundColor = ConsoleColor.White;
-                                    Console.Write("|   " + string.Format(elevi[i].getnumepr() + " cu intrebarea:  "));
+                                    Console.Write("|   " + string.Format(elevi[i].numecomplet + " cu intrebarea:  "));
                                     intrebare_ = intrebare[rnd.Next(0, intrebare.Length)];
                                     Console.ForegroundColor = ConsoleColor.Red;
                                     Console.Write(" " + intrebare_ + "\n");
@@ -114,7 +119,7 @@ namespace Teema1
                                     if (admis == 1)
                                     {
                                         Console.WriteLine("Felicitari sunteti admis cu nota 5!\n");
-                                        elevi[i].setnota(5);
+                                        elevi[i].nota = 5;
                                     }
                                     else
                                     {
@@ -132,9 +137,9 @@ namespace Teema1
                         Console.ForegroundColor = ConsoleColor.White;
                         for (int i = 0; i <= 10; i++)
                         {
-                            if (elevi[i].getstatus().Equals("respins") && elevi[i].afisareresp() != string.Empty)
+                            if (elevi[i].status.Equals("respins") && elevi[i].Afisareresp() != string.Empty)
                             {
-                                Console.WriteLine(elevi[i].afisareresp());
+                                Console.WriteLine(elevi[i].Afisareresp());
                             }
                         }
                         Console.ReadKey();
@@ -150,13 +155,13 @@ namespace Teema1
                         {
                             for (int i = 0; i <= 10; i++)
                             {
-                                if (elevi[i].getstatus().Equals("admis") && elevi[i].nota < 10)
+                                if (elevi[i].status.Equals("admis") && elevi[i].nota < 10)
                                 {
                                     Console.ForegroundColor = ConsoleColor.Green;
                                     Console.WriteLine("\n\n---------------------------------------------------------------------------------------------------------------");
                                     Console.WriteLine("|                                                                                                              |");
                                     Console.ForegroundColor = ConsoleColor.White;
-                                    Console.Write("|   " + string.Format(elevi[i].getnumepr() + " cu intrebarea:  "));
+                                    Console.Write("|   " + string.Format(elevi[i].numecomplet + " cu intrebarea:  "));
                                     intrebare_ = intrebare[rnd.Next(0, intrebare.Length)];
                                     Console.ForegroundColor = ConsoleColor.Green;
                                     Console.Write(" " + intrebare_ + "\n");
@@ -203,9 +208,9 @@ namespace Teema1
                         Console.ForegroundColor = ConsoleColor.White;
                         for (int i = 0; i <= 10; i++)
                         {
-                            if (elevi[i].getstatus().Equals("admis") && elevi[i].afisareadmis() != string.Empty)
+                            if (elevi[i].status.Equals("admis") && elevi[i].Afisareadmis() != string.Empty)
                             {
-                                Console.WriteLine(elevi[i].afisareadmis());
+                                Console.WriteLine(elevi[i].Afisareadmis());
                             }
                         }
                         Console.ReadKey();
@@ -229,9 +234,9 @@ namespace Teema1
                         Console.ForegroundColor = ConsoleColor.White;
                         for (int i = 0; i <= 10; i++)
                         {
-                            if (elevi[i].getstatus().Equals("respins") && elevi[i].afisareresp() != string.Empty)
+                            if (elevi[i].status.Equals("respins") && elevi[i].Afisareresp() != string.Empty)
                             {
-                                Console.WriteLine(elevi[i].afisareresp());
+                                Console.WriteLine(elevi[i].Afisareresp());
                             }
                         }
                         Console.ReadKey();
@@ -243,10 +248,10 @@ namespace Teema1
                         Console.Write("CITIRE NUMAR SUDENT2: ");
                         int nrstud2 = Convert.ToInt32(Console.ReadLine());
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Ati ales studentii " + elevi[nrstud1].numecomplet + "cu nota " + elevi[nrstud1].nota + " si " + elevi[nrstud2].numecomplet + "cu nota " + elevi[nrstud2].nota);
+                        Console.WriteLine("Ati ales studentii " + elevi[nrstud1].numecomplet + " cu nota " + elevi[nrstud1].nota + " si " + elevi[nrstud2].numecomplet + " cu nota " + elevi[nrstud2].nota);
                         Console.ForegroundColor = ConsoleColor.White;
                         int ok;
-                        ok = elevi[nrstud1].compare(elevi[nrstud2]);
+                        ok = elevi[nrstud1].Compare(elevi[nrstud2]);
 
                         if (ok == Student.MARE)
                         {
@@ -259,7 +264,7 @@ namespace Teema1
                         {
                             Console.WriteLine("ELEVUL " + elevi[nrstud1].numecomplet + " < ELEVUL " + elevi[nrstud2].numecomplet);
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Aveam asteptari mai mari pentru tine domnule " + elevi[nrstud1].numecomplet);
+                            Console.WriteLine("Aveam asteptari mai mari de la tine domnule " + elevi[nrstud1].numecomplet);
                             Console.ForegroundColor = ConsoleColor.White;
                         }
 
@@ -270,6 +275,10 @@ namespace Teema1
                         Environment.Exit(0);
                         break;
 
+                    default:
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;               
                 }
 
 
